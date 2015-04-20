@@ -1,6 +1,10 @@
 {
   "id": "arangodb-framework",
-  "args": [ "framework" ],
+  "args": [
+    "framework",
+    "--master", "{{mesos/master}}",
+    "--zk", "{{arangodb/zk}}"
+  ],
   "cpus": 0.2,
   "mem": 64.0,
   "instances": 1,
