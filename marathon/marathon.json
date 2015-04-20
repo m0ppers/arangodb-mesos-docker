@@ -1,0 +1,13 @@
+{
+  "id": "ArangoDB Framework",
+  "cmd": "framework.sh",
+  "cpus": 0.5,
+  "mem": 64.0,
+  "instances": 1,
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "arangodb/arangodb-mesos"
+    }
+  }
+}
