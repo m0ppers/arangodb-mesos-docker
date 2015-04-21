@@ -1,12 +1,15 @@
 {
-  "id": "arangodb-framework",
+  "id": "{{arangodb/id}}",
   "args": [
     "framework",
-    "--master", "{{mesos/master}}",
-    "--zk", "{{arangodb/zk}}"
+    "--framework-name={{arangodb/id}}",
+    "--master={{mesos/master}}",
+    "--zk={{arangodb/zk}}/{{arangodb/id}}",
+    "--role=*"
   ],
   "cpus": 0.2,
   "mem": 64.0,
+  "ports": [],
   "instances": 1,
   "container": {
     "type": "DOCKER",
