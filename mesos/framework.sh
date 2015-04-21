@@ -2,7 +2,5 @@
 
 env
 
-export WEBUI="http://${HOST}:${PORT}/"
-export ARANGODB_HTTP_PORT="${PORT}"
-
-exec /mesos/arangodb-framework "$@"
+# exec /mesos/arangodb-framework --http-port=8181 --webui=http://${HOST}:8181/ "$@"
+exec /mesos/arangodb-framework --http-port=${PORT0} --webui=http://${HOST}:${PORT0}/ "$@"

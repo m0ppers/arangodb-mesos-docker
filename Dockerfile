@@ -19,7 +19,7 @@ ADD ./mesos /mesos
 # expose data, apps and logs
 VOLUME ["/data", "/apps", "/apps-dev", "/logs"]
 
-# standard port
+# standard ports
 EXPOSE 8529
 
 # start script

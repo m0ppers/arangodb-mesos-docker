@@ -9,7 +9,7 @@
   ],
   "cpus": 0.2,
   "mem": 64.0,
-  "ports": [],
+  "ports": [ 0 ],
   "instances": 1,
   "container": {
     "type": "DOCKER",
