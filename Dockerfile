@@ -17,7 +17,7 @@ RUN ./scripts/install.sh
 ADD ./mesos /mesos
 
 # expose data, apps and logs
-VOLUME ["/data", "/apps", "/apps-dev", "/logs"]
+VOLUME ["/data", "/apps", "/logs"]
 
 # standard ports
 EXPOSE 8529
