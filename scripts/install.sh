@@ -76,7 +76,7 @@ else
 fi
 
 # install deps for mesos
-apt-get -y -qq install libprotobuf8 libgoogle-glog0 libapr1 libsvn1 libmicrohttpd10 libboost-regex1.54.0
+apt-get -y -qq install libprotobuf8 libgoogle-glog0 libapr1 libsvn1 libmicrohttpd10 libboost-regex1.54.0 libcurl3-nss
 
 # cleanup
 echo " ---> Cleaning up"
