@@ -20,4 +20,4 @@ echo "ARANGODB_WEBUI_PORT: $ARANGODB_WEBUI_PORT"
 echo "ARANGODB_WEBUI_HOST: $ARANGODB_WEBUI_HOST"
 
 cd /mesos
-exec ./arangodb-framework "--http-port=${ARANGODB_WEBUI_PORT}" "--webui=${ARANGODB_WEBUI}" "$@"
+exec ./arangodb-framework "--http_port=${ARANGODB_WEBUI_PORT}" "--webui=${ARANGODB_WEBUI}" "$@"
