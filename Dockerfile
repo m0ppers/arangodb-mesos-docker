@@ -19,8 +19,8 @@ ADD ./mesos /mesos
 # expose data, apps and logs
 VOLUME ["/data", "/apps", "/logs"]
 
-# standard ports
-EXPOSE 8529
+# standard ports for ArangoDB and etcd
+EXPOSE 8529 4001 7001
 
 # start script
 ENTRYPOINT ["/mesos/commands.sh"]

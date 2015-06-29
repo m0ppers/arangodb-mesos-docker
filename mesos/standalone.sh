@@ -14,6 +14,8 @@ mkdir /tmp/arangodb
 
 chown arangodb:arangodb /data/db /data/apps /data/logs /data/logs/arangodb.log /tmp/arangodb
 
+env
+
 # start server
 exec /usr/sbin/arangod \
 	--uid arangodb \

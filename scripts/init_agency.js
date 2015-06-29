@@ -1,5 +1,14 @@
 /*jshint strict: false */
 /*global require*/
+var numberOfDBServers = 0;
+var numberOfCoordinators = 0;
+var env = require("internal").env;
+if (env["numberOfDBServers"] !== undefined) {
+  numberOfDBServers = Number(env.numberOfDBServers);
+}
+if (env["numberOfCoordinators"] !== undefined) {
+  numberOfCoordinators = Number(env.numberOfCoordinators);
+}
 var agencyData = {
   "arango" : {
      "Sync" : {
@@ -66,6 +75,16 @@ var agencyData = {
      }
   }
 };
+
+// Add entries for DBservers and Coordinators:
+
+var i;
+for (i = 1; i <= numberOfDBServers; i++) {
+  agencyData.arango.Plan.DBServers["DBServer"+i] = "none";
+}
+for (i = 1; i <= numberOfCoordinators; i++) {
+  agencyData.arango.Plan.Coordinators["Coordinator"+i] = "none";
+}
 
 var download = require("internal").download;
 var print = require("internal").print;
@@ -135,6 +154,17 @@ function sendToAgency (agencyURL, path, obj) {
   }
 }
 
+print("init_agency.js was started, waiting 5 seconds for agency to come up...");
+wait(5);
 print("Starting to send data to Agency...");
-var res = sendToAgency("http://agency:4001/v2/keys", "/", agencyData);
-print("Result:",res);
+var res = sendToAgency("http://127.0.0.1:4001/v2/keys", "/", agencyData);
+print("Result:", res);
+print("Indicating successful initialisation...");
+res = download("http://127.0.0.1:4001/v2/keys/arango/InitDone",
+               "value="+encodeURIComponent("true"),
+               {"method": "PUT", "followRedirects": true,
+                "headers": {
+                  "Content-Type": "application/x-www-form-urlencoded"
+                }});
+print("Result:", res.code);
+
