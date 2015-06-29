@@ -18,6 +18,7 @@ env
 
 echo "ARANGODB_WEBUI_PORT: $ARANGODB_WEBUI_PORT"
 echo "ARANGODB_WEBUI_HOST: $ARANGODB_WEBUI_HOST"
+echo "ARANGODB_WEBUI     : $ARANGODB_WEBUI"
 
 cd /mesos
 exec ./arangodb-framework "--http_port=${ARANGODB_WEBUI_PORT}" "--webui=${ARANGODB_WEBUI}" "$@"
