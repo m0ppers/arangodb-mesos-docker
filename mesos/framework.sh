@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if test -z "ARANGODB_WEBUI_PORT" -o "$ARANGODB_WEBUI_PORT" -eq 0;  then
+if test -z "$ARANGODB_WEBUI_PORT" -o "$ARANGODB_WEBUI_PORT" -eq 0;  then
   ARANGODB_WEBUI_PORT="${PORT0}"
 fi
 
