@@ -39,7 +39,7 @@ export MyID=$2
 shift
 shift
 
-export MyAdress="tcp://${HOST}:${PORT0}"
+export MyAddress="tcp://${HOST}:${PORT0}"
 
 # fix permissions
 test -d /data/db || mkdir /data/db
@@ -53,6 +53,19 @@ mkdir /tmp/arangodb
 
 chown arangodb:arangodb /data/db /data/apps /data/logs /data/logs/arangodb.log /data/logs/requests.log /tmp/arangodb
 
+export SchedulerThreads=3
+export DispatcherThreads=5
+if [[ "${MyId}" =~ ^Coordinator ]] ; then
+    export SchedulerThreads=4
+    export DispatcherThreads=40
+elif [[ "${MyId}" =~ ^Secondary ]] ; then
+    export SchedulerThreads=1
+    export DispatcherThreads=2
+fi
+
+echo Scheduler threads: $SchedulerThreads
+echo Dispatcher threads: $DispatcherThreads
+
 # start server
 exec /usr/sbin/arangod \
 	--uid arangodb \
@@ -63,8 +76,12 @@ exec /usr/sbin/arangod \
         --temp-path /tmp/arangodb \
 	--server.endpoint tcp://0.0.0.0:8529 \
         --cluster.agency-endpoint ${Agency} \
-        --cluster.my-address ${MyAdress} \
+        --cluster.my-address ${MyAddress} \
         --cluster.my-id ${MyID} \
         --log.requests-file /data/logs/requests.log \
         --log.level DEBUG \
+        --scheduler.threads ${SchedulerThreads} \
+        --server.threads ${DispatcherThreads} \
+        --server.foxx-queues false \
+        --server.disable-statistics true \
 	"$@"

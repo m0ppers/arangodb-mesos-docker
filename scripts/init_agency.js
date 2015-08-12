@@ -2,6 +2,7 @@
 /*global require*/
 var numberOfDBServers = 0;
 var numberOfCoordinators = 0;
+var asyncReplication = false;
 var env = require("internal").env;
 if (env["numberOfDBServers"] !== undefined) {
   numberOfDBServers = Number(env.numberOfDBServers);
@@ -9,6 +10,10 @@ if (env["numberOfDBServers"] !== undefined) {
 if (env["numberOfCoordinators"] !== undefined) {
   numberOfCoordinators = Number(env.numberOfCoordinators);
 }
+if (env["asyncReplication"] === "true") {
+  asyncReplication = true;
+}
+
 var agencyData = {
   "arango" : {
      "Sync" : {
@@ -79,9 +84,17 @@ var agencyData = {
 // Add entries for DBservers and Coordinators:
 
 var i;
-for (i = 1; i <= numberOfDBServers; i++) {
-  agencyData.arango.Plan.DBServers["DBServer"+i] = "none";
+if (asyncReplication === false) {
+  for (i = 1; i <= numberOfDBServers; i++) {
+    agencyData.arango.Plan.DBServers["DBServer"+i] = "none";
+  }
 }
+else {
+  for (i = 1; i <= numberOfDBServers; i++) {
+    agencyData.arango.Plan.DBServers["DBServer"+i] = "Secondary"+i;
+  }
+}
+
 for (i = 1; i <= numberOfCoordinators; i++) {
   agencyData.arango.Plan.Coordinators["Coordinator"+i] = "none";
 }
