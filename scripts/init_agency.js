@@ -91,7 +91,7 @@ if (asyncReplication === false) {
 }
 else {
   for (i = 1; i <= numberOfDBServers; i++) {
-    agencyData.arango.Plan.DBServers["DBServer"+i] = "Secondary"+i;
+    agencyData.arango.Plan.DBServers["DBServer"+i] = "\"Secondary"+i+"\"";
   }
 }
 

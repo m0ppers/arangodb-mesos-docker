@@ -55,10 +55,10 @@ chown arangodb:arangodb /data/db /data/apps /data/logs /data/logs/arangodb.log /
 
 export SchedulerThreads=3
 export DispatcherThreads=5
-if [[ "${MyId}" =~ ^Coordinator ]] ; then
+if [[ "${MyID}" =~ ^Coordinator ]] ; then
     export SchedulerThreads=4
     export DispatcherThreads=40
-elif [[ "${MyId}" =~ ^Secondary ]] ; then
+elif [[ "${MyID}" =~ ^Secondary ]] ; then
     export SchedulerThreads=1
     export DispatcherThreads=2
 fi
@@ -67,9 +67,7 @@ echo Scheduler threads: $SchedulerThreads
 echo Dispatcher threads: $DispatcherThreads
 
 # start server
-exec /usr/sbin/arangod \
-	--uid arangodb \
-	--gid arangodb \
+exec sudo -u arangodb -g arangodb -- /usr/sbin/arangod \
         --database.directory /data/db \
         --javascript.app-path /data/apps \
 	--log.file /data/logs/arangodb.log \
@@ -78,8 +76,6 @@ exec /usr/sbin/arangod \
         --cluster.agency-endpoint ${Agency} \
         --cluster.my-address ${MyAddress} \
         --cluster.my-id ${MyID} \
-        --log.requests-file /data/logs/requests.log \
-        --log.level DEBUG \
         --scheduler.threads ${SchedulerThreads} \
         --server.threads ${DispatcherThreads} \
         --server.foxx-queues false \
