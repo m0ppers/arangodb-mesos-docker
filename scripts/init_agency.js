@@ -1,5 +1,27 @@
 /*jshint strict: false */
 /*global require*/
+
+(function () {
+
+var download = require("internal").download;
+var print = require("internal").print;
+var wait = require("internal").wait;
+
+print("init_agency.js was started, waiting 5 seconds for agency to come up...");
+wait(5);
+
+print("Checking whether or not the agency is already initialised:");
+var res = download("http://127.0.0.1:4001/v2/keys/arango/InitDone",
+               "",     // empty body
+               {"method": "GET", "followRedirects": true});
+print("Result of test:", res.code);
+if (res.code === 200) {
+  print("Agency is already initialized, aborting.");
+  return;
+}
+
+print("Agency not yet initialized, let's go...");
+
 var numberOfDBServers = 0;
 var numberOfCoordinators = 0;
 var asyncReplication = false;
@@ -99,10 +121,6 @@ for (i = 1; i <= numberOfCoordinators; i++) {
   agencyData.arango.Plan.Coordinators["Coordinator"+i] = "none";
 }
 
-var download = require("internal").download;
-var print = require("internal").print;
-var wait = require("internal").wait;
-
 function encode (st) {
   var st2 = "";
   var i;
@@ -167,8 +185,6 @@ function sendToAgency (agencyURL, path, obj) {
   }
 }
 
-print("init_agency.js was started, waiting 5 seconds for agency to come up...");
-wait(5);
 print("Starting to send data to Agency...");
 var res = sendToAgency("http://127.0.0.1:4001/v2/keys", "/", agencyData);
 print("Result:", res);
@@ -180,4 +196,6 @@ res = download("http://127.0.0.1:4001/v2/keys/arango/InitDone",
                   "Content-Type": "application/x-www-form-urlencoded"
                 }});
 print("Result:", res.code);
+
+})();
 
