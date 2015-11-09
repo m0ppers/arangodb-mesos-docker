@@ -11,6 +11,8 @@ touch /data/logs/agency.log
 
 chown arangodb:arangodb /data/db /data/logs /data/logs/agency.log
 
+export ETCD_NONO_WAL_SYNC=1
+
 env
 
 arangosh --javascript.execute /scripts/init_agency.js &
